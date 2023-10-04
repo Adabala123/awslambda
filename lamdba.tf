@@ -19,7 +19,7 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 resource "aws_lambda_function" "hello_lambda" {
-  filename      = "hello_lambda.py"
+  filename      = "hello-lambda.py"
   function_name = "helloLambdaFunction"
   role          = aws_iam_role.lambda_role.arn
   handler       = "hello_lambda.lambda_handler"
