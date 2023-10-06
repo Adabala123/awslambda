@@ -20,7 +20,7 @@ resource "aws_iam_role" "lambda_role" {
 
 resource "aws_lambda_function" "hello_lambda" {
   #filename      = "hello-lambda.py"
-   filename      = "hello_lambda.zip"
+  filename      = "hello_lambda.zip"
   function_name = "helloLambdaFunction"
   role          = aws_iam_role.lambda_role.arn
   handler       = "hello_lambda.lambda_handler"
