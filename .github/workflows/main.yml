@@ -33,3 +33,26 @@ jobs:
              fi
              fi
            done
+      - name: Monitor CloudWatch Alarms and Update ECS Service
+        run: |
+          # Monitor CloudWatch Alarms and capture the result
+          alarm_status=$(aws cloudwatch describe-alarms --alarm-name myalarm --query 'MetricAlarms[0].StateValue' --output text)
+  
+          # Define scaling thresholds
+          scale_up_threshold=70
+          scale_down_threshold=30
+
+          # Get current ECS service desired count
+          current_desired_count=$(aws ecs describe-services --cluster mycluster --services myservice --query 'services[0].desiredCount' --output text)
+  
+          # Check the alarm status and adjust ECS service desired count accordingly
+          if [ "$alarm_status" != "OK" ]; then
+            echo "Alarm status is not OK. Scaling ECS service up."
+            aws ecs update-service --cluster mycluster --service myservice --desired-count $((current_desired_count + 1))
+          elif [ "$current_desired_count" -gt 1 ] && [ "$alarm_status" = "OK" ]; then
+            echo "Alarm status is OK. Scaling ECS service down."
+            aws ecs update-service --cluster mycluster --service myservice --desired-count $((current_desired_count - 1))
+          else
+            echo "Alarm status is OK. No action needed."
+          fi
+           
