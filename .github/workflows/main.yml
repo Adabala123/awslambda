@@ -19,16 +19,17 @@ jobs:
 
       - name: Poll CloudWatch Alarms
         run: |
-          # Define your CloudWatch Alarms and corresponding scaling actions here
-          alarms=("myalarm")
-          
-          for alarm_name in "${alarms[@]}"; do
+           # Define your CloudWatch Alarms and corresponding scaling actions here
+            alarms=("myalarm")
+    
+            for alarm_name in "${alarms[@]}"; do
             alarm_state=$(aws cloudwatch describe-alarms --alarm-name "$alarm_name" --query 'MetricAlarms[0].StateValue' --output text)
-            
-            if [ "$alarm_state" = "ALARM" ]; then
-            if [ "$alarm_name" = "myalarm" ]; then
+      
+             if [ "$alarm_state" = "ALARM" ]; then
+             if [ "$alarm_name" = "myalarm" ]; then
                 # Example: Trigger scaling action for high CPU usage (increase task count)
                 # Replace with your AWS CLI and ECS CLI commands for scaling
                 echo "Scaling action for high CPU usage."
-            fi
-          done  
+             fi
+             fi
+           done
