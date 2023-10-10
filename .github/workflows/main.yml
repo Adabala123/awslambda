@@ -1,6 +1,8 @@
 name: Ecs Autoscaling
 
-on: [workflow_dispatch]
+on:
+ schedule:
+    - cron: "*/5 * * * *"
 
 jobs:
   check_cloudwatch_alarms:
