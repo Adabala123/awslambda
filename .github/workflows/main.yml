@@ -31,3 +31,4 @@ jobs:
                 # Replace with your AWS CLI and ECS CLI commands for scaling
                 echo "Scaling action for high CPU usage."
             fi
+          done  
