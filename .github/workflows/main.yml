@@ -1,0 +1,36 @@
+name: Ecs Autoscaling
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Schedule to run every 5 minutes (adjust as needed)
+
+jobs:
+  check_cloudwatch_alarms:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: AWS CLI Setup
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1  # Replace with your AWS region
+
+      - name: Poll CloudWatch Alarms
+        run: |
+          # Define your CloudWatch Alarms and corresponding scaling actions here
+          alarms=("myalarm")
+          
+          for alarm_name in "${alarms[@]}"; do
+            alarm_state=$(aws cloudwatch describe-alarms --alarm-name "$alarm_name" --query 'MetricAlarms[0].StateValue' --output text)
+            
+            if [ "$alarm_state" = "ALARM" ]; then
+            if [ "$alarm_name" = "myalarm" ]; then
+                # Example: Trigger scaling action for high CPU usage (increase task count)
+                # Replace with your AWS CLI and ECS CLI commands for scaling
+                echo "Scaling action for high CPU usage."
+            fi
+          done
