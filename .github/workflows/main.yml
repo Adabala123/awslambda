@@ -36,7 +36,7 @@ jobs:
       - name: Monitor CloudWatch Alarms and Update ECS Service
         run: |
           # Monitor CloudWatch Alarms and capture the result
-          alarm_status=$(aws cloudwatch describe-alarms --alarm-name myalarm --query 'MetricAlarms[0].StateValue' --output text)
+          alarm_state=$(aws cloudwatch describe-alarms --alarm-names myalarm --query 'MetricAlarms[0].StateValue' --output text)
   
           # Define scaling thresholds
           scale_up_threshold=70
