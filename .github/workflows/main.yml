@@ -1,8 +1,6 @@
 name: Ecs Autoscaling
 
-on:
-  schedule:
-    - cron: '*/5 * * * *'  # Schedule to run every 5 minutes (adjust as needed)
+on: [workflow_dispatch]
 
 jobs:
   check_cloudwatch_alarms:
