@@ -23,7 +23,7 @@ jobs:
             alarms=("myalarm")
     
             for alarm_name in "${alarms[@]}"; do
-            alarm_state=$(aws cloudwatch describe-alarms --alarm-name "$alarm_name" --query 'MetricAlarms[0].StateValue' --output text)
+            alarm_state=$(aws cloudwatch describe-alarms --alarm-names "$alarm_name" --query 'MetricAlarms[0].StateValue' --output text)
       
              if [ "$alarm_state" = "ALARM" ]; then
              if [ "$alarm_name" = "myalarm" ]; then
